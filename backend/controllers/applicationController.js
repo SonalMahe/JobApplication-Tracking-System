@@ -11,6 +11,8 @@ export const getAllApplications = async (req, res) => {
   }
 };
 
+
+// Get application by ID
 export const getApplicationById = async (req, res) => {
   try {
     const application = await prisma.application.findUnique({
@@ -24,6 +26,8 @@ export const getApplicationById = async (req, res) => {
   }
 };
 
+
+// Create new application
 export const createApplication = async (req, res) => {
   try {
     const { jobId, applicantId, status, applicationDate } = req.body;
@@ -36,6 +40,8 @@ export const createApplication = async (req, res) => {
   }
 };
 
+
+// Update application by ID
 export const updateApplication = async (req, res) => {
   try {
     const application = await prisma.application.update({
@@ -48,6 +54,8 @@ export const updateApplication = async (req, res) => {
   }
 };
 
+
+// Delete application by ID
 export const deleteApplication = async (req, res) => {
   try {
     await prisma.application.delete({ where: { id: Number(req.params.id) } });

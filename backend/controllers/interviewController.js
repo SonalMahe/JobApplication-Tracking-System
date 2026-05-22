@@ -11,6 +11,8 @@ export const getAllInterviews = async (req, res) => {
   }
 };
 
+
+// Get interview by ID
 export const getInterviewById = async (req, res) => {
   try {
     const interview = await prisma.interview.findUnique({
@@ -24,6 +26,8 @@ export const getInterviewById = async (req, res) => {
   }
 };
 
+
+// Create new interview
 export const createInterview = async (req, res) => {
   try {
     const { applicationId, interviewDate, interviewerName, interviewNotes, result } = req.body;
@@ -36,6 +40,8 @@ export const createInterview = async (req, res) => {
   }
 };
 
+
+// Update interview by ID
 export const updateInterview = async (req, res) => {
   try {
     const interview = await prisma.interview.update({
@@ -48,6 +54,8 @@ export const updateInterview = async (req, res) => {
   }
 };
 
+
+// Delete interview by ID
 export const deleteInterview = async (req, res) => {
   try {
     await prisma.interview.delete({ where: { id: Number(req.params.id) } });

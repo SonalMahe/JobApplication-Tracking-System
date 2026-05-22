@@ -9,6 +9,8 @@ export const getAllManagers = async (req, res) => {
   }
 };
 
+
+// Get manager by ID
 export const getManagerById = async (req, res) => {
   try {
     const manager = await prisma.hiringManager.findUnique({
@@ -21,6 +23,7 @@ export const getManagerById = async (req, res) => {
   }
 };
 
+//  Create new manager
 export const createManager = async (req, res) => {
   try {
     const { firstName, lastName, email, department } = req.body;
@@ -33,6 +36,8 @@ export const createManager = async (req, res) => {
   }
 };
 
+
+// Update manager by ID
 export const updateManager = async (req, res) => {
   try {
     const manager = await prisma.hiringManager.update({
@@ -45,6 +50,8 @@ export const updateManager = async (req, res) => {
   }
 };
 
+
+// Delete manager by ID
 export const deleteManager = async (req, res) => {
   try {
     await prisma.hiringManager.delete({ where: { id: Number(req.params.id) } });

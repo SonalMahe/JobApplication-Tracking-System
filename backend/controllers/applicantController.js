@@ -9,6 +9,7 @@ export const getAllApplicants = async (req, res) => {
   }
 };
 
+// Get applicant by ID
 export const getApplicantById = async (req, res) => {
   try {
     const applicant = await prisma.applicant.findUnique({
@@ -21,6 +22,8 @@ export const getApplicantById = async (req, res) => {
   }
 };
 
+
+// Create new applicant
 export const createApplicant = async (req, res) => {
   try {
     const { firstName, lastName, email, phoneNumber, resumeLink } = req.body;
@@ -33,6 +36,7 @@ export const createApplicant = async (req, res) => {
   }
 };
 
+// Update applicant by ID
 export const updateApplicant = async (req, res) => {
   try {
     const applicant = await prisma.applicant.update({
@@ -45,6 +49,8 @@ export const updateApplicant = async (req, res) => {
   }
 };
 
+
+// Delete applicant by ID
 export const deleteApplicant = async (req, res) => {
   try {
     await prisma.applicant.delete({ where: { id: Number(req.params.id) } });

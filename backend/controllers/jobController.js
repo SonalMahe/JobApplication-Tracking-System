@@ -9,6 +9,7 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
+// Get job by ID
 export const getJobById = async (req, res) => {
   try {
     const job = await prisma.job.findUnique({
@@ -21,6 +22,8 @@ export const getJobById = async (req, res) => {
   }
 };
 
+
+// Create new job
 export const createJob = async (req, res) => {
   try {
     const { title, department, location } = req.body;
@@ -33,6 +36,8 @@ export const createJob = async (req, res) => {
   }
 };
 
+
+// Update job by ID
 export const updateJob = async (req, res) => {
   try {
     const job = await prisma.job.update({
@@ -45,6 +50,7 @@ export const updateJob = async (req, res) => {
   }
 };
 
+// Delete job by ID
 export const deleteJob = async (req, res) => {
   try {
     await prisma.job.delete({ where: { id: Number(req.params.id) } });
