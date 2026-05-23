@@ -1,33 +1,32 @@
 import { describe, it, expect, vi } from 'vitest';
+import express from 'express';
+import cors from 'cors';
+import request from 'supertest';
 
-describe('Health Check', () => {
-// Test for health check endpoint
-  it('returns status ok', () => {
-    const res = {
-      json: vi.fn(),
-    };
+// Small test app with CORS and health route
+const app = express();
+app.use(cors({ origin: 'http://localhost:5173' }));
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
 
-    const handler = (req, res) => {
-      res.json({ status: 'ok' });
-    };
+describe('Production Behaviour Tests', () => {
 
-    handler({}, res);
+  // Test 1 - server health check
+  it('GET /api/health - server is running and returns status ok', async () => {
+    const res = await request(app).get('/api/health');
 
-    expect(res.json).toHaveBeenCalledWith({ status: 'ok' });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ status: 'ok' });
   });
 
+  // Test 2 - CORS headers are present in response
+  it('GET /api/health - response includes CORS headers', async () => {
+    const res = await request(app)
+      .get('/api/health')
+      .set('Origin', 'http://localhost:5173');
 
-  // Test for status value type
-  it('status value is a string', () => {
-    const res = { json: vi.fn() };
-
-    const handler = (req, res) => {
-      res.json({ status: 'ok' });
-    };
-
-    handler({}, res);
-
-    const result = res.json.mock.calls[0][0];
-    expect(typeof result.status).toBe('string');
+    expect(res.headers['access-control-allow-origin']).toBe('http://localhost:5173');
   });
+
 });

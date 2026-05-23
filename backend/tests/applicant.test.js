@@ -18,7 +18,7 @@ import { getAllApplicants, getApplicantById, createApplicant, deleteApplicant } 
 beforeEach(() => vi.clearAllMocks());
 
 describe('Applicant Controller', () => {
-// Test for getting all applicants
+// Test for getting all applicants-
   it('should return all applicants', async () => {
     const applicants = [{ id: 1, firstName: 'Max', lastName: 'Olsen', email: 'max@gmail.com' }];
     prisma.applicant.findMany.mockResolvedValue(applicants);
@@ -74,6 +74,8 @@ describe('Applicant Controller', () => {
     expect(res.json).toHaveBeenCalledWith(newApplicant);
   });
 
+
+  // Test for deleting an applicant
   it('should delete an applicant', async () => {
     prisma.applicant.delete.mockResolvedValue({});
 
@@ -85,6 +87,8 @@ describe('Applicant Controller', () => {
     expect(res.json).toHaveBeenCalledWith({ message: 'Applicant deleted' });
   });
 
+
+  // Test for database error handling
   it('should return 500 on database error', async () => {
     prisma.applicant.findMany.mockRejectedValue(new Error('DB error'));
 
