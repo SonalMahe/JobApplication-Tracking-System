@@ -110,7 +110,7 @@ npx prisma db seed
 
 ### 5. Start the servers
 ```bash
-# Backend (port 5000)
+# Backend (port 5001)
 cd backend
 npm run dev
 
@@ -129,7 +129,7 @@ docker compose up --build
 ```
 
 This starts:
-- **Backend** → http://localhost:5000
+- **Backend** → http://localhost:5001
 - **Frontend** → http://localhost:5173
 - **PostgreSQL** → port 5432
 
