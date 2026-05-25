@@ -1,0 +1,12 @@
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-applied   { background: #e3f0ff; color: #2563eb; }
+.badge-interview { background: #fef3c7; color: #d97706; }
+.badge-offered   { background: #d1fae5; color: #059669; }
+.badge-rejected  { background: #fee2e2; color: #dc2626; }

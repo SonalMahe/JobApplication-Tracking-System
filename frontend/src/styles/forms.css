@@ -1,0 +1,35 @@
+.form-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.form-card h3 {
+  width: 100%;
+  font-size: 1rem;
+  color: #1a1a2e;
+  margin-bottom: 0.25rem;
+}
+
+.form-card input,
+.form-card select {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+  border-color: #e94560;
+}

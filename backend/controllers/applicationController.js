@@ -32,7 +32,7 @@ export const createApplication = async (req, res) => {
   try {
     const { jobId, applicantId, status, applicationDate } = req.body;
     const application = await prisma.application.create({
-      data: { jobId, applicantId, status, applicationDate: new Date(applicationDate) },
+      data: { jobId, applicantId, status, applicationDate: applicationDate ? new Date(applicationDate) : new Date() },
     });
     res.status(201).json(application);
   } catch (error) {
