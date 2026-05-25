@@ -43,13 +43,13 @@ async function main() {
 
   // Applicants
   const applicant1 = await prisma.applicant.create({
-    data: { firstName: 'Max', lastName: 'Olsen', email: 'max@gmail.com', phoneNumber: '0701234567', resumeLink: 'https://resume.io/arun' },
+    data: { firstName: 'Max', lastName: 'Olsen', email: 'max@gmail.com', phoneNumber: '0701234567',  },
   });
   const applicant2 = await prisma.applicant.create({
-    data: { firstName: 'Sara', lastName: 'Nilsson', email: 'sara@gmail.com', phoneNumber: '0709876543', resumeLink: 'https://resume.io/sara' },
+    data: { firstName: 'Sara', lastName: 'Nilsson', email: 'sara@gmail.com', phoneNumber: '0709876543',  },
   });
   const applicant3 = await prisma.applicant.create({
-    data: { firstName: 'Lars', lastName: 'Johansson', email: 'lars@gmail.com', phoneNumber: '0705556666', resumeLink: 'https://resume.io/lars' },
+    data: { firstName: 'Lars', lastName: 'Johansson', email: 'lars@gmail.com', phoneNumber: '0705556666',  },
   });
 
 
