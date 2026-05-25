@@ -32,7 +32,13 @@ export const createInterview = async (req, res) => {
   try {
     const { applicationId, interviewDate, interviewerName, interviewNotes, result } = req.body;
     const interview = await prisma.interview.create({
-      data: { applicationId, interviewDate: new Date(interviewDate), interviewerName, interviewNotes, result },
+      data: {
+        applicationId,
+        interviewDate: interviewDate ? new Date(interviewDate) : new Date(),
+        interviewerName: interviewerName || 'TBD',
+        interviewNotes,
+        result,
+      },
     });
     res.status(201).json(interview);
   } catch (error) {
