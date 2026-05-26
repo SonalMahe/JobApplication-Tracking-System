@@ -6,12 +6,9 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <h1>Job Application Tracker</h1>
+        <h1>Application Tracking System</h1>
         <p>Track jobs, applicants, and interviews in one place.</p>
-        <button className="btn-primary" onClick={() => {
-          console.log('button clicked, loginWithRedirect:', typeof loginWithRedirect)
-          loginWithRedirect()
-        }}>
+        <button className="btn-primary" onClick={() => loginWithRedirect()}>
           Login / Sign Up
         </button>
       </div>
