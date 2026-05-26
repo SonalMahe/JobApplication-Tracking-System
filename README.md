@@ -7,7 +7,7 @@ A full-stack web application to manage job postings, applicants, applications, a
 | Service | URL |
 |---|---|
 | Frontend | https://job-application-tracking-system-kry.vercel.app |
-| Backend API | https://your-backend.onrender.com |
+| Backend API | https://job-application-tracking-system-gamma.vercel.app |
 
 ---
 
@@ -22,7 +22,7 @@ A full-stack web application to manage job postings, applicants, applications, a
 | Validation | Zod (backend input validation) |
 | Containerization | Docker + Docker Compose |
 | CI/CD | GitHub Actions |
-| Deployment | Vercel (frontend) + Render (backend) |
+| Deployment | Vercel (frontend + backend) |
 
 ---
 
@@ -198,7 +198,7 @@ Push to main
 ```
 
 - If tests fail, the pipeline fails and the code is blocked
-- Vercel and Render are connected to GitHub and **auto-deploy on every push to main** — no manual steps needed
+- Vercel is connected to GitHub and **auto-deploys on every push to main** — no manual steps needed
 - Frontend environment variables are passed as GitHub Secrets during the build step so Auth0 values are baked into the production bundle
 
 ---
@@ -224,7 +224,7 @@ cd backend && npm test
 ## Security
 
 ### 1. Secrets never in code
-All sensitive values (`DATABASE_URL`, `AUTH0_AUDIENCE`, client IDs) are stored in `.env` files locally and as environment variables on Render/Vercel. `.env` is in `.gitignore`. A `.env.example` with placeholder values is committed so developers know what to configure.
+All sensitive values (`DATABASE_URL`, `AUTH0_AUDIENCE`, client IDs) are stored in `.env` files locally and as environment variables on Vercel. `.env` is in `.gitignore`. A `.env.example` with placeholder values is committed so developers know what to configure.
 
 ### 2. JWT authentication on every route
 Every API route (except `/api/health`) is protected by the `checkAuth` middleware which validates the Auth0 Bearer token on every request. Invalid or missing tokens receive a `401 Unauthorized` response immediately — no database query is made.
@@ -247,10 +247,10 @@ Auth0's React SDK (`@auth0/auth0-react`) stores tokens **in memory only**, not i
 Applicant routes use Zod schemas to validate request bodies before they reach the database. Invalid input (bad email format, missing required fields) returns a `400` with clear error messages — no raw database errors are exposed to the client.
 
 ### 6. Docker image does not contain secrets
-`.dockerignore` excludes `.env` files from being copied into the Docker image. Secrets are passed at runtime via `env_file` in Docker Compose or as environment variables on Render.
+`.dockerignore` excludes `.env` files from being copied into the Docker image. Secrets are passed at runtime via `env_file` in Docker Compose or as environment variables on Vercel.
 
 ### 7. HTTPS in production
-Render and Vercel both enforce HTTPS automatically. All traffic between the browser, frontend, and backend is encrypted in transit.
+Vercel enforces HTTPS automatically. All traffic between the browser, frontend, and backend is encrypted in transit.
 
 ---
 
@@ -258,11 +258,11 @@ Render and Vercel both enforce HTTPS automatically. All traffic between the brow
 
 ### 1. Why did you choose this deployment platform? What were the alternatives you considered?
 
-We chose **Vercel** for deployment because it connects directly to GitHub and deploys automatically on every push — no manual steps needed. Vercel is purpose-built for React/Vite frontends, provides a global CDN, automatic HTTPS, and has a generous free tier that is well suited for a course project.
+We chose **Vercel** for both the frontend and backend because it connects directly to GitHub and deploys automatically on every push — no manual steps needed. Vercel provides a global CDN, automatic HTTPS, and a generous free tier, making it well suited for a course project. The backend runs as a serverless Node.js function on Vercel using `@vercel/node`.
 
 **Alternatives considered:**
 - **Railway** — can host both frontend and backend in one place, which simplifies setup, but gives less control over frontend performance optimisation.
-- **Netlify** — similar to Vercel for static frontends but Vercel has better native support for React and Vite projects.
+- **Netlify** — similar to Vercel for static frontends but Vercel has better native support for React and Vite projects and also supports backend deployments.
 
 ---
 

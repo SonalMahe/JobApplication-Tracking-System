@@ -46,7 +46,7 @@ export default function InterviewsPage() {
   useEffect(() => { setup() }, [])
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault()// {for loading state and error handling}
+    e.preventDefault()
     try {
       await API.post('/api/interviews', {
         applicationId: Number(form.applicationId),

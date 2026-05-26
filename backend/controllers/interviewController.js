@@ -3,7 +3,7 @@ import prisma from '../config/db.js';
 export const getAllInterviews = async (req, res) => {
   try {
     const interviews = await prisma.interview.findMany({
-      include: { application: true },
+      include: { application: { include: { applicant: true, job: true } } },
     });
     res.json(interviews);
   } catch (error) {
@@ -17,7 +17,7 @@ export const getInterviewById = async (req, res) => {
   try {
     const interview = await prisma.interview.findUnique({
       where: { id: Number(req.params.id) },
-      include: { application: true },
+      include: { application: { include: { applicant: true, job: true } } },
     });
     if (!interview) return res.status(404).json({ message: 'Interview not found' });
     res.json(interview);
