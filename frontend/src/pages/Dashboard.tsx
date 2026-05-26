@@ -35,7 +35,6 @@ export default function Dashboard() {
     <div className="page">
       <div className="overview-header">
         <h2>Overview</h2>
-        <p className="overview-sub">Welcome, <strong>{user?.name}</strong></p>
       </div>
 
       <div className="stats-grid">
