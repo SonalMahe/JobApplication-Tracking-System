@@ -1,5 +1,7 @@
 import prisma from '../config/db.js';
+import express from 'express';
 
+// Get all applicants
 export const getAllApplicants = async (req, res) => {
   try {
     const applicants = await prisma.applicant.findMany();
