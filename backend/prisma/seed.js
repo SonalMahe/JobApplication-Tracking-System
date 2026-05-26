@@ -89,20 +89,20 @@ async function main() {
       applicationId: app1.id,
       interviewDate: new Date('2026-06-04'),
       interviewerName: 'Anna Lindqvist',
-      interviewNotes: 'Strong React and TypeScript skills, good communication.',
+      interviewNotes: 'Strong React and TypeScript skills,',
       result: 'passed',
     },
   });
 
-  await prisma.interview.create({
-    data: {
-      applicationId: app2.id,
-      interviewDate: new Date('2026-06-10'),
-      interviewerName: 'Erik Svensson',
-      interviewNotes: 'Good problem-solving skills, but needs improvement in communication.',
-      result: 'failed',
-    },
-  });
+  // await prisma.interview.create({
+  //   data: {
+  //     applicationId: app2.id,
+  //     interviewDate: new Date('2026-06-10'),
+  //     interviewerName: 'Erik Svensson',
+  //     interviewNotes: 'Good problem-solving skills, but needs improvement in communication.',
+  //     result: 'failed',
+  //   },
+  // });
 
   
   // Job Applicants (tracking status per job)

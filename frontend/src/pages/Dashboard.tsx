@@ -3,11 +3,38 @@ import { useEffect, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 
-const cards = [
-  { key: 'jobs' as const,         label: 'Total Jobs',      color: '#3b82f6', link: '/jobs' },
-  { key: 'applicants' as const,   label: 'Applicants',      color: '#10b981', link: '/applicants' },
-  { key: 'applications' as const, label: 'Applications',    color: '#8b5cf6', link: '/applications' },
-  { key: 'interviews' as const,   label: 'Interviews',      color: '#f59e0b', link: '/interviews' },
+type Card = {
+  key: 'jobs' | 'applicants' | 'applications' | 'interviews'
+  label: string
+  color: string
+  link: string
+}
+
+const cards: Card[] = [
+  {
+    key: 'jobs',
+    label: 'Total Jobs',
+    color: '#3b82f6',
+    link: '/jobs',
+  },
+  {
+    key: 'applicants',
+    label: 'Applicants',
+    color: '#10b981',
+    link: '/applicants',
+  },
+  {
+    key: 'applications',
+    label: 'Applications',
+    color: '#8b5cf6',
+    link: '/applications',
+  },
+  {
+    key: 'interviews',
+    label: 'Interviews',
+    color: '#f59e0b',
+    link: '/interviews',
+  },
 ]
 
 export default function Dashboard() {
@@ -33,9 +60,7 @@ export default function Dashboard() {
 
   return (
     <div className="page">
-      <div className="overview-header">
-        <h2>Overview</h2>
-      </div>
+      <h2>Overview</h2>
 
       <div className="stats-grid">
         {cards.map(card => (
