@@ -1,6 +1,6 @@
 import API from '../api/client'
 import { useEffect, useState } from 'react'
-
+import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
 
 type Card = {
@@ -38,6 +38,7 @@ const cards: Card[] = [
 ]
 
 export default function Dashboard() {
+  const { user } = useAuth0()
   const [counts, setCounts] = useState({ jobs: 0, applicants: 0, applications: 0, interviews: 0 })
 
   useEffect(() => {
@@ -60,11 +61,11 @@ export default function Dashboard() {
 
   return (
     <div className="page">
-      <h2>Overview</h2>
+      <h2>Welcome ,{user?.name || 'User'} to your Job Application Tracker Dashboard</h2>
 
       <div className="stats-grid">
         {cards.map(card => (
-          <Link to={card.link} key={card.key} className="stat-card" style={{ borderTopColor: card.color } as React.CSSProperties}>
+          <Link to={card.link} key={card.key} className="stat-card" style={{ borderTopColor: card.color }}>
             <h3 style={{ color: card.color }}>{counts[card.key]}</h3>
             <p>{card.label}</p>
           </Link>
