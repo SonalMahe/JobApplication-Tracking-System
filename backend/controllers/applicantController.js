@@ -27,9 +27,9 @@ export const getApplicantById = async (req, res) => {
 // Create new applicant
 export const createApplicant = async (req, res) => {
   try {
-    const { firstName, lastName, email, phoneNumber, resumeLink } = req.body;
+    const { firstName, lastName, email, phoneNumber } = req.body;
     const applicant = await prisma.applicant.create({
-      data: { firstName, lastName, email, phoneNumber, resumeLink },
+      data: { firstName, lastName, email, phoneNumber },
     });
     res.status(201).json(applicant);
   } catch (error) {
