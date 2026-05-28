@@ -30,7 +30,21 @@ services:
       timeout: 5s
       retries: 5
     ports:
-      - "5432:5432"
+      - "5433:5432"
+
+  prisma-studio:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: sh -c "npm install && npx prisma studio --port 5555 --browser none"
+    ports:
+      - "5555:5555"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   pgdata:
