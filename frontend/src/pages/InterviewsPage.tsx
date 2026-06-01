@@ -20,21 +20,30 @@ type Application = {
   job?: { title: string }
 }
 
+type Manager = {
+  id: number
+  firstName: string
+  lastName: string
+}
+
 export default function InterviewsPage() {
   const [interviews, setInterviews] = useState<Interview[]>([])
   const [applications, setApplications] = useState<Application[]>([])
+  const [managers, setManagers] = useState<Manager[]>([])
   const [form, setForm] = useState({ applicationId: '', interviewDate: '', interviewerName: '', interviewNotes: '' })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   const setup = async () => {
     try {
-      const [intRes, appRes] = await Promise.all([
+      const [intRes, appRes, mgrRes] = await Promise.all([
         API.get('/api/interviews'),
         API.get('/api/applications'),
+        API.get('/api/hiring-managers'),
       ])
       setInterviews(intRes.data)
       setApplications(appRes.data)
+      setManagers(mgrRes.data)
       setError('')
     } catch {
       setError('Failed to load interviews. Please try again.')
@@ -94,7 +103,12 @@ export default function InterviewsPage() {
           ))}
         </select>
         <input type="datetime-local" value={form.interviewDate} onChange={e => setForm({ ...form, interviewDate: e.target.value })} required />
-        <input placeholder="Interviewer Name" value={form.interviewerName} onChange={e => setForm({ ...form, interviewerName: e.target.value })} />
+        <select value={form.interviewerName} onChange={e => setForm({ ...form, interviewerName: e.target.value })}>
+          <option value="">Select Manager</option>
+          {managers.map(m => (
+            <option key={m.id} value={`${m.firstName} ${m.lastName}`}>{m.firstName} {m.lastName}</option>
+          ))}
+        </select>
         <input placeholder="Notes (optional)" value={form.interviewNotes} onChange={e => setForm({ ...form, interviewNotes: e.target.value })} />
         <button className="btn-primary" type="submit">Schedule</button>
       </form>
