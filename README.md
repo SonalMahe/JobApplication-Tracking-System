@@ -258,54 +258,20 @@ Vercel enforces HTTPS automatically. All traffic between the browser, frontend, 
 
 ### 1. Why did you choose this deployment platform? What were the alternatives you considered?
 
-We chose **Vercel** for both the frontend and backend because it connects directly to GitHub and deploys automatically on every push — no manual steps needed. Vercel provides a global CDN, automatic HTTPS, and a generous free tier, making it well suited for a course project. The backend runs as a serverless Node.js function on Vercel using `@vercel/node`.
-
-**Alternatives considered:**
-- **Railway** — can host both frontend and backend in one place, which simplifies setup, but gives less control over frontend performance optimisation.
-- **Netlify** — similar to Vercel for static frontends but Vercel has better native support for React and Vite projects and also supports backend deployments.
-
----
+We chose **Vercel** because it connects to GitHub and deploys automatically on every push, with free HTTPS and CDN included. We also considered Railway and Netlify, but Vercel had the best support for both React/Vite frontend and Node.js backend in one place.
 
 ### 2. What challenges did you face with Docker? How did you solve them?
 
-The main challenge was configuring the frontend Dockerfile for production. The initial version used `npm run dev` which is only for development. We switched to a **multi-stage build** — Node.js builds the app, then nginx serves the output. This made the image smaller and production-ready.
-
-We also added `.dockerignore` files to exclude `node_modules` and `.env` from Docker images, keeping them clean and secure.
-
----
+The frontend Dockerfile was using `npm run dev` which only works locally — we fixed it by switching to a **multi-stage build** where Node builds the app and nginx serves it, making the image smaller and production-ready. We also added `.dockerignore` to keep secrets and `node_modules` out of the image.
 
 ### 3. How did you handle environment variables and secrets in production vs locally?
 
-| Environment | How secrets are stored |
-|---|---|
-| Local development | `.env` file (listed in `.gitignore`, never committed) |
-| GitHub Actions | GitHub repository Secrets (Settings → Secrets → Actions) |
-| Vercel | Environment Variables set in the Vercel dashboard |
-
-A `.env.example` file with placeholder values is committed to the repository so any developer knows exactly what variables to configure without exposing real values. No secrets are ever hardcoded in the codebase.
-
----
+Locally we use a `.env` file (never committed), in GitHub Actions we use GitHub Secrets, and on Vercel we set them in the dashboard. A `.env.example` file is committed so anyone cloning the repo knows what to fill in.
 
 ### 4. What would you do differently if you had one more week?
 
-- **Add update (PUT) functionality** on the frontend — currently users can only add and delete records, not edit them
-- **Add end-to-end tests** using Playwright to test the full user flow in a real browser
-- **Add rate limiting** on the backend API to prevent abuse and protect against brute force attacks
-- **Improve error messages** — show specific Zod validation errors from the backend directly in the frontend form fields
-
----
+We would add edit (PUT) functionality on the frontend, add end-to-end tests with Playwright, add rate limiting on the API, and show Zod validation errors directly in the form fields instead of just on the backend.
 
 ### 5. How did you ensure that authentication still works after deployment?
 
-After deploying, we updated the **Auth0 dashboard** to include the production Vercel URL alongside the local development URL in three places:
-
-- **Allowed Callback URLs** — where Auth0 redirects after login
-- **Allowed Logout URLs** — where Auth0 redirects after logout
-- **Allowed Web Origins** — which origins are allowed to request tokens
-
-Both localhost and the Vercel URL are listed so login works in both environments:
-```
-http://localhost:5173, https://job-application-tracking-system-kry.vercel.app
-```
-
-On the backend, `AUTH0_AUDIENCE` and `AUTH0_ISSUER_BASE_URL` are read from environment variables, so the same code validates tokens correctly in both local and production environments without any code changes.
+After deploying, we added the live Vercel URL to the Auth0 dashboard under Allowed Callback URLs, Logout URLs, and Web Origins — alongside localhost — so login works in both environments without any code changes.
