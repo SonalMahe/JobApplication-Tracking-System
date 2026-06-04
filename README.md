@@ -4,10 +4,10 @@ A full-stack web application to manage job postings, applicants, applications, a
 
 ## Live Demo
 
-| Service | URL |
-|---|---|
-| Frontend | https://job-application-tracking-system-kry.vercel.app |
-| Backend API | https://job-application-tracking-system-gamma.vercel.app |
+| Service | Platform | URL |
+|---|---|---|
+| Frontend | Vercel | https://job-application-tracking-system-kry.vercel.app |
+| Backend API | Render | https://jobapplication-tracking-system.onrender.com |
 
 ---
 
@@ -22,7 +22,7 @@ A full-stack web application to manage job postings, applicants, applications, a
 | Validation | Zod (backend input validation) |
 | Containerization | Docker + Docker Compose |
 | CI/CD | GitHub Actions |
-| Deployment | Vercel (frontend + backend) |
+| Deployment | Vercel (frontend) + Render (backend) |
 
 ---
 
@@ -198,8 +198,9 @@ Push to main
 ```
 
 - If tests fail, the pipeline fails and the code is blocked
-- Vercel is connected to GitHub and **auto-deploys on every push to main** — no manual steps needed
-- Frontend environment variables are passed as GitHub Secrets during the build step so Auth0 values are baked into the production bundle
+- Vercel is connected to GitHub and **auto-deploys the frontend on every push to main**
+- Render is connected to GitHub and **auto-deploys the backend on every push to main** — the Docker container is rebuilt and `prisma migrate deploy` runs automatically on startup
+- Frontend environment variables are set in the Vercel dashboard; backend environment variables are set in the Render dashboard
 
 ---
 
@@ -224,7 +225,7 @@ cd backend && npm test
 ## Security
 
 ### 1. Secrets never in code
-All sensitive values (`DATABASE_URL`, `AUTH0_AUDIENCE`, client IDs) are stored in `.env` files locally and as environment variables on Vercel. `.env` is in `.gitignore`. A `.env.example` with placeholder values is committed so developers know what to configure.
+All sensitive values (`DATABASE_URL`, `AUTH0_AUDIENCE`, client IDs) are stored in `.env` files locally, as environment variables in the Vercel dashboard (frontend), and as environment variables in the Render dashboard (backend). `.env` is in `.gitignore`. A `.env.example` with placeholder values is committed so developers know what to configure.
 
 ### 2. JWT authentication on every route
 Every API route (except `/api/health`) is protected by the `checkAuth` middleware which validates the Auth0 Bearer token on every request. Invalid or missing tokens receive a `401 Unauthorized` response immediately — no database query is made.
@@ -250,7 +251,7 @@ Applicant routes use Zod schemas to validate request bodies before they reach th
 `.dockerignore` excludes `.env` files from being copied into the Docker image. Secrets are passed at runtime via `env_file` in Docker Compose or as environment variables on Vercel.
 
 ### 7. HTTPS in production
-Vercel enforces HTTPS automatically. All traffic between the browser, frontend, and backend is encrypted in transit.
+Vercel (frontend) and Render (backend) both enforce HTTPS automatically. All traffic between the browser, frontend, and backend is encrypted in transit.
 
 ---
 
@@ -258,7 +259,7 @@ Vercel enforces HTTPS automatically. All traffic between the browser, frontend, 
 
 ### 1. Why did you choose this deployment platform? What were the alternatives you considered?
 
-We chose **Vercel** because it connects to GitHub and deploys automatically on every push, with free HTTPS and CDN included. We also considered Railway and Netlify, but Vercel had the best support for both React/Vite frontend and Node.js backend in one place.
+We chose **Vercel** for the frontend because it connects to GitHub and deploys automatically on every push, with free HTTPS and CDN included. We chose **Render** for the backend because it supports Docker-based deployments directly from GitHub, runs on a persistent server (unlike serverless), and handles environment variables securely. We also considered Railway and Netlify, but Vercel + Render gave the best split between a static frontend host and a persistent backend host.
 
 ### 2. What challenges did you face with Docker? How did you solve them?
 
@@ -266,7 +267,7 @@ The frontend Dockerfile was using `npm run dev` which only works locally — we 
 
 ### 3. How did you handle environment variables and secrets in production vs locally?
 
-Locally we use a `.env` file (never committed), in GitHub Actions we use GitHub Secrets, and on Vercel we set them in the dashboard. A `.env.example` file is committed so anyone cloning the repo knows what to fill in.
+Locally we use a `.env` file (never committed). In production, frontend variables are set in the Vercel dashboard and backend variables (`DATABASE_URL`, `AUTH0_AUDIENCE`, `AUTH0_ISSUER_BASE_URL`, `FRONTEND_URL`) are set in the Render dashboard. A `.env.example` file is committed so anyone cloning the repo knows what to fill in.
 
 ### 4. What would you do differently if you had one more week?
 
