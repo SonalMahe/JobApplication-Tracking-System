@@ -2,6 +2,15 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  // Clear existing data in dependency order
+  await prisma.interview.deleteMany();
+  await prisma.jobApplicant.deleteMany();
+  await prisma.jobManager.deleteMany();
+  await prisma.application.deleteMany();
+  await prisma.applicant.deleteMany();
+  await prisma.hiringManager.deleteMany();
+  await prisma.job.deleteMany();
+
   // Jobs
   const job1 = await prisma.job.create({
     data: { title: 'Frontend Developer', department: 'Engineering', location: 'Stockholm' },
